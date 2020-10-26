@@ -71,6 +71,9 @@ namespace AddressBook
                     contactDetailsList.Add(contactDetails);
                     nLog.LogDebug("Contact Details Addition Successful: AddingContactDetails()");
             }
+            //sorting the values in the address book using lambda expression
+            contactDetailsList.Sort((emp1, emp2) => emp1.firstName.CompareTo(emp2.firstName));
+            contactDetailsList.Sort((emp1, emp2) => emp1.lastName.CompareTo(emp2.lastName));
             contactPersonalInformation.DisplayContactDetails();
 
         }
