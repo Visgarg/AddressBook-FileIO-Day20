@@ -42,15 +42,12 @@ namespace AddressBook
                         break;
                     case "2":
                         addressBook.AddContactsInAddressBook();
-                        addressBook.DisplayingAddressBooks();
                         break;
                     case "3":
                         addressBook.EditDetailsOfAddressBook();
-                        addressBook.DisplayingAddressBooks();
                         break;
                     case "4":
                         addressBook.DeleteContactsOfAddressBook();
-                        addressBook.DisplayingAddressBooks();
                         break;
                     case "5":
                         addressBook.DisplayingAddressBooks();

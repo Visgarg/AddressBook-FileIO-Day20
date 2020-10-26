@@ -72,9 +72,6 @@ namespace AddressBook
                     nLog.LogDebug("Contact Details Addition Successful: AddingContactDetails()");
             }
             //sorting the values in the address book using lambda expression
-            contactDetailsList.Sort((emp1, emp2) => emp1.firstName.CompareTo(emp2.firstName));
-            contactDetailsList.Sort((emp1, emp2) => emp1.lastName.CompareTo(emp2.lastName));
-            contactPersonalInformation.DisplayContactDetails();
 
         }
         /// <summary>
@@ -82,7 +79,9 @@ namespace AddressBook
         /// </summary>
         public void DisplayContactDetails()
         {
-            foreach(ContactDetails contactPerson in contactDetailsList)
+            SortingContactDetails();
+
+            foreach (ContactDetails contactPerson in contactDetailsList)
             {
                 Console.WriteLine($"First Name : {contactPerson.firstName} || Last Name: {contactPerson.lastName} || Address: {contactPerson.address} || City: {contactPerson.city} || State: {contactPerson.state}|| zip: {contactPerson.zip} || Phone No: {contactPerson.phoneNo} || eMail: {contactPerson.eMail}");
             }
@@ -329,7 +328,6 @@ namespace AddressBook
                 nLog.LogInfo("details are being entered again by user");
                 goto addingDetailsAgainForEditing;
             }
-            contact.DisplayContactDetails();
         }
         /// <summary>
         /// Deleting contact details from address book
@@ -518,6 +516,34 @@ namespace AddressBook
                 stateList.Add(contactPerson.state);
             }
             return stateList;
+        }
+        public List<ContactDetails> SortingContactDetails()
+        {
+            Console.WriteLine("Please press 1 to sort the data by name");
+            Console.WriteLine("Please press 2 to sort the data by city");
+            Console.WriteLine("Please press 3 to sort the data by state");
+            Console.WriteLine("Please press 4 to sort the data by zip");
+            Console.WriteLine("Please press any other to return the unsorted contacts");
+            int sortingContacts = Convert.ToInt32(Console.ReadLine());
+            switch (sortingContacts)
+            {
+                case 1:
+                    contactDetailsList.Sort((emp1, emp2) => emp1.firstName.CompareTo(emp2.firstName));
+                    contactDetailsList.Sort((emp1, emp2) => emp1.lastName.CompareTo(emp2.lastName));
+                    return contactDetailsList;
+                case 2:
+                    contactDetailsList.Sort((emp1, emp2) => emp1.city.CompareTo(emp2.city));
+                    return contactDetailsList;
+                case 3:
+                    contactDetailsList.Sort((emp1, emp2) => emp1.state.CompareTo(emp2.state));
+                    return contactDetailsList;
+                case 4:
+                    contactDetailsList.Sort((emp1, emp2) => emp1.zip.CompareTo(emp2.zip));
+                    return contactDetailsList;
+                default:
+                    return contactDetailsList;
+            }
+
         }
     }
     
