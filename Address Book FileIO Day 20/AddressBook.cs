@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.IO;
 
 namespace AddressBook
 {
@@ -121,6 +122,41 @@ namespace AddressBook
                 Console.WriteLine("the name of address book is " + dictionaryPair.Key);
                 ContactPersonInformation contactPersonInformation = dictionaryPair.Value;
                 contactPersonInformation.DisplayContactDetails();
+            }
+        }
+        /// <summary>
+        /// Writing data into text file for each address book
+        /// </summary>
+        public void WritingAddressBookInTextFile()
+        {
+            //calling of addressbooks using foreach loop
+            foreach (KeyValuePair<string, ContactPersonInformation> dictionaryPair in addressBookMapper)
+            { 
+                ContactPersonInformation contactPersonInformation = dictionaryPair.Value;
+                contactPersonInformation.AddingContactDetailsinTextFile(dictionaryPair.Key);
+            }
+            Console.WriteLine("Data Appended in text file");
+        }
+        /// <summary>
+        /// Reading all the data from text file created for writing
+        /// </summary>
+        public void ReadingContactDetailsFromTextFile()
+        {
+            //path from which data is read
+            string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\DataFile.txt";
+            Console.WriteLine("Showing all the data Writtern into the file by calling Stream Reader");
+            //if file exists, streamreader function from system.IO is called
+            //sr.ReadLine() will read each line from the text file and display on console until line is null.
+            if(File.Exists(path))
+            {
+                using(StreamReader sr= File.OpenText(path))
+                {
+                    string line = "";
+                    while((line= sr.ReadLine())!=null)
+                    {
+                        Console.WriteLine(line);
+                    }
+                }
             }
         }
         /// <summary>

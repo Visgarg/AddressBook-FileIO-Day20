@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace AddressBook
 {
@@ -32,21 +33,50 @@ namespace AddressBook
         {
             ContactPersonInformation contactPersonalInformation = new ContactPersonInformation();
             //able to add multiple contact details in one list
+            /* string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\Data.txt";
+             if(File.Exists(path))
+             {
+                 //string[] contactDetailsData;
+                 //contactDetailsData = File.ReadAllLines(path);
+                 //foreach()
+                 using (StreamReader sr = File.OpenText(path))
+                 {
+                     string contactPersonData = "";
+
+                     while ((contactPersonData = sr.ReadLine())!=null )
+                     {
+                         string[] array = contactPersonData.Split(" ");
+                         string firstName = array[0];
+                         string lastName = array[1];
+                         string address = array[2];
+                         string city = array[3];
+                         string state = array[4];
+                         int zip = Convert.ToInt32(array[5]);
+                         double phoneNo = Convert.ToDouble(array[6]);
+                         string eMail = array[7];
+
+                         ContactDetails contactDetails = new ContactDetails(firstName, lastName, address, city, state, zip, phoneNo, eMail);
+
+                         //Adding Contact details in the list
+                         contactDetailsList.Add(contactDetails);
+                     }
+                 }
+             }*/
 
             while (true)
             {
-             //used goto method to call the method again
+            //used goto method to call the method again
             Repeat: Console.WriteLine("Please enter first name, last name, address, city, state, zip, phoneno and email");
                 string firstName = Console.ReadLine();
                 if (firstName == "")
-                {   
+                {
                     //if first name is null, then no more contact details are entered
                     nLog.LogInfo("No more contact details have been entered");
                     break;
                 }
-               
+
                 string lastName = Console.ReadLine();
-                bool checkForContactInList = contactPersonalInformation.CheckingForNameinExistingContactList(contactDetailsList, firstName,lastName);
+                bool checkForContactInList = contactPersonalInformation.CheckingForNameinExistingContactList(contactDetailsList, firstName, lastName);
                 if (checkForContactInList == false)
                 {
                     continue;
@@ -68,8 +98,8 @@ namespace AddressBook
                 ContactDetails contactDetails = new ContactDetails(firstName, lastName, address, city, state, zip, phoneNo, eMail);
 
                 //Adding Contact details in the list
-                    contactDetailsList.Add(contactDetails);
-                    nLog.LogDebug("Contact Details Addition Successful: AddingContactDetails()");
+                contactDetailsList.Add(contactDetails);
+                nLog.LogDebug("Contact Details Addition Successful: AddingContactDetails()");
             }
             //sorting the values in the address book using lambda expression
 
@@ -87,6 +117,31 @@ namespace AddressBook
             }
             nLog.LogDebug("Displaying Contact Details Successful :DisplayingContactDetails()");
         }
+        /// <summary>
+        /// writing contact details and address book name for each address book.
+        /// </summary>
+        /// <param name="addressBookName"></param>
+        public void AddingContactDetailsinTextFile(string addressBookName)
+        {
+            string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\DataFile.txt";
+            if (File.Exists(path))
+            {
+             
+                using (StreamWriter sr = File.AppendText(path))
+                {
+                    sr.WriteLine("The name of the address book is" + addressBookName);
+                    foreach (ContactDetails contactPerson in contactDetailsList)
+                    {
+                        sr.WriteLine($"First Name : {contactPerson.firstName} || Last Name: {contactPerson.lastName} || Address: {contactPerson.address} || City: {contactPerson.city} || State: {contactPerson.state}|| zip: {contactPerson.zip} || Phone No: {contactPerson.phoneNo} || eMail: {contactPerson.eMail}");
+                    }
+                    
+                    //string lines = File.ReadAllText(path);
+                    //Console.WriteLine(lines);
+                    sr.Close();
+                }
+            }
+        }
+       
         /// <summary>
         /// Edits contact details in address book
         /// </summary>
