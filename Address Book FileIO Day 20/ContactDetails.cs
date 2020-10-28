@@ -6,14 +6,14 @@ namespace AddressBook
 {
     public class ContactDetails
     {
-        public string firstName;
-        public string lastName;
-        public string address;
-        public string city;
-        public string state;
-        public int zip;
-        public double phoneNo;
-        public string eMail;
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string address { get; set; }
+        public string city{ get; set; }
+        public string state { get; set; }
+        public int zip { get; set; }
+        public double phoneNo { get; set; }
+        public string eMail { get; set; }
 
         /// <summary>
         /// Calling Constructor for initializing variables 
