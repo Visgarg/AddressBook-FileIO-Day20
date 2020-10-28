@@ -186,7 +186,7 @@ namespace AddressBook
             foreach (KeyValuePair<string,ContactPersonInformation> addressBookName in addressBookMapper)
             {
                 //defining path for each address book
-                string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\ContactListCsv\" + addressBookName.Key + ".csv";
+                string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\" + addressBookName.Key + ".csv";
                 if (File.Exists(path))
                 {
                     Console.WriteLine("The Name of the address book is:" + addressBookName.Key);
