@@ -164,6 +164,7 @@ namespace AddressBook
         }
         /// <summary>
         /// writing the contact details of address book into csv file
+        /// calling method in contact person information which writes contact list of each address book in seperate csv files
         /// </summary>
         public void WritingAddressBookInCsvFile()
         {
@@ -185,20 +186,23 @@ namespace AddressBook
             foreach (KeyValuePair<string,ContactPersonInformation> addressBookName in addressBookMapper)
             {
                 //defining path for each address book
-                string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\csvforcontacts" + addressBookName.Key + ".csv";
-                Console.WriteLine("The Name of the address book is:" + addressBookName.Key);
-                //reading the path of file
-                StreamReader reader = new StreamReader(path);
-                //instatiating csvreader object to read csv file
-                var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-                //getting the list of contact details from file using GetRecords Method and type casting it to ContactDetails
-                List<ContactDetails> list = csv.GetRecords<ContactDetails>().ToList();
-                foreach (ContactDetails contactPerson in list)
+                string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\" + addressBookName.Key + ".csv";
+                if (File.Exists(path))
                 {
-                    Console.WriteLine($"First Name : {contactPerson.firstName} || Last Name: {contactPerson.lastName} || Address: {contactPerson.address} || City: {contactPerson.city} || State: {contactPerson.state}|| zip: {contactPerson.zip} || Phone No: {contactPerson.phoneNo} || eMail: {contactPerson.eMail}");
+                    Console.WriteLine("The Name of the address book is:" + addressBookName.Key);
+                    //reading the path of file
+                    StreamReader reader = new StreamReader(path);
+                    //instatiating csvreader object to read csv file
+                    var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                    //getting the list of contact details from file using GetRecords Method and type casting it to ContactDetails
+                    List<ContactDetails> list = csv.GetRecords<ContactDetails>().ToList();
+                    foreach (ContactDetails contactPerson in list)
+                    {
+                        Console.WriteLine($"First Name : {contactPerson.firstName} || Last Name: {contactPerson.lastName} || Address: {contactPerson.address} || City: {contactPerson.city} || State: {contactPerson.state}|| zip: {contactPerson.zip} || Phone No: {contactPerson.phoneNo} || eMail: {contactPerson.eMail}");
+                    }
+                    //closing the csv reader for garbage collection
+                    reader.Close();
                 }
-                //closing the csv reader for garbage collection
-                reader.Close();
             }
         }
         /// <summary>

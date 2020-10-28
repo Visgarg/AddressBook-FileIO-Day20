@@ -152,7 +152,7 @@ namespace AddressBook
         public void AddingContactDetailsInCsvFile(string addressBookName)
         {
             //giving path of the csv file with the help of address book name
-            string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\csvforcontacts" + addressBookName + ".csv";
+            string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\" + addressBookName + ".csv";
             //path for writing each csv file, is converted into stream
             StreamWriter writer = new StreamWriter(path);
             //creating csv writer object with stream writer and default delimiter- cultureinfo.invariantculture as parameter
