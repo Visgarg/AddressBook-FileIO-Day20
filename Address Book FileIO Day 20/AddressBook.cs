@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.IO;
+using CsvHelper;
+using System.Globalization;
+using System.Linq;
 
 namespace AddressBook
 {
@@ -146,7 +149,7 @@ namespace AddressBook
             string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\DataFile.txt";
             Console.WriteLine("Showing all the data Writtern into the file by calling Stream Reader");
             //if file exists, streamreader function from system.IO is called
-            //sr.ReadLine() will read each line from the text file and display on console until line is null.
+            //sr.ReadLine() will read each line from the text  file and display to console until line is null.
             if(File.Exists(path))
             {
                 using(StreamReader sr= File.OpenText(path))
@@ -157,6 +160,45 @@ namespace AddressBook
                         Console.WriteLine(line);
                     }
                 }
+            }
+        }
+        /// <summary>
+        /// writing the contact details of address book into csv file
+        /// </summary>
+        public void WritingAddressBookInCsvFile()
+        {
+            //calling of addressbooks using foreach loop
+            foreach (KeyValuePair<string, ContactPersonInformation> dictionaryPair in addressBookMapper)
+            {
+                ContactPersonInformation contactPersonInformation = dictionaryPair.Value;
+                contactPersonInformation.AddingContactDetailsInCsvFile(dictionaryPair.Key);
+            }
+            Console.WriteLine("Data Appended in csv file successfully");
+        }
+        /// <summary>
+        /// reading the contact details from csv file
+        /// </summary>
+        public void ReadingContactDetailsFromCSVFile()
+        {
+            Console.WriteLine("**Reading data from csv file**");
+            //iterating over each address book
+            foreach (KeyValuePair<string,ContactPersonInformation> addressBookName in addressBookMapper)
+            {
+                //defining path for each address book
+                string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\csvforcontacts" + addressBookName.Key + ".csv";
+                Console.WriteLine("The Name of the address book is:" + addressBookName.Key);
+                //reading the path of file
+                StreamReader reader = new StreamReader(path);
+                //instatiating csvreader object to read csv file
+                var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                //getting the list of contact details from file using GetRecords Method and type casting it to ContactDetails
+                List<ContactDetails> list = csv.GetRecords<ContactDetails>().ToList();
+                foreach (ContactDetails contactPerson in list)
+                {
+                    Console.WriteLine($"First Name : {contactPerson.firstName} || Last Name: {contactPerson.lastName} || Address: {contactPerson.address} || City: {contactPerson.city} || State: {contactPerson.state}|| zip: {contactPerson.zip} || Phone No: {contactPerson.phoneNo} || eMail: {contactPerson.eMail}");
+                }
+                //closing the csv reader for garbage collection
+                reader.Close();
             }
         }
         /// <summary>

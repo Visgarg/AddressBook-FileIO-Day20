@@ -3,6 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Runtime.CompilerServices;
+using CsvHelper;
+using System.Globalization;
+using System.Linq;
 
 namespace AddressBook
 {
@@ -141,6 +145,30 @@ namespace AddressBook
                 }
             }
         }
+        /// <summary>
+        /// Writing Contact Details into Csv file
+        /// </summary>
+        /// <param name="addressBookName"></param>
+        public void AddingContactDetailsInCsvFile(string addressBookName)
+        {
+            //giving path of the csv file with the help of address book name
+            string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\csvforcontacts" + addressBookName + ".csv";
+            //path for writing each csv file, is converted into stream
+            StreamWriter writer = new StreamWriter(path);
+            //creating csv writer object with stream writer and default delimiter- cultureinfo.invariantculture as parameter
+            var csv = new CsvWriter(writer, CultureInfo.InvariantCulture) ;
+            foreach (ContactDetails contactPerson in contactDetailsList)
+            {
+                Console.WriteLine($"First Name : {contactPerson.firstName} || Last Name: {contactPerson.lastName} || Address: {contactPerson.address} || City: {contactPerson.city} || State: {contactPerson.state}|| zip: {contactPerson.zip} || Phone No: {contactPerson.phoneNo} || eMail: {contactPerson.eMail}");
+            }
+            //writing list into csv file.
+            csv.WriteRecords(contactDetailsList);
+            //flush causes the data to persist, and to be written in memory.
+            writer.Flush();
+            //closing the csv file
+            writer.Close();
+        }
+        
        
         /// <summary>
         /// Edits contact details in address book
