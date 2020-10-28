@@ -32,6 +32,7 @@ namespace AddressBook
                 Console.WriteLine("Enter 10 to view contact details and count with state");
                 Console.WriteLine("Enter 11 to write contact details into text file");
                 Console.WriteLine("Enter 12 to write contact details into csv file");
+                Console.WriteLine("Enter 13 to write contact details into json file");
                 Console.WriteLine("Enter any other key to exit");
 
 
@@ -80,6 +81,10 @@ namespace AddressBook
                     case "12":
                         addressBook.WritingAddressBookInCsvFile();
                         addressBook.ReadingContactDetailsFromCSVFile();
+                        break;
+                    case "13":
+                        addressBook.WritingAddressBookInJsonFile();
+                        addressBook.ReadingContactDetailsFromJsonFile();
                         break;
                     default:
                         flag = false;

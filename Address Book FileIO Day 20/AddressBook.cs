@@ -7,6 +7,7 @@ using System.IO;
 using CsvHelper;
 using System.Globalization;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace AddressBook
 {
@@ -174,8 +175,23 @@ namespace AddressBook
                 ContactPersonInformation contactPersonInformation = dictionaryPair.Value;
                 contactPersonInformation.AddingContactDetailsInCsvFile(dictionaryPair.Key);
             }
-            Console.WriteLine("Data Appended in csv file successfully");
+            Console.WriteLine("Data Appended in  file successfully");
         }
+        /// <summary>
+        /// writing the contact details of address book into json file
+        /// calling method in contact person information which writes contact list of each address book in seperate json files
+        /// </summary>
+        public void WritingAddressBookInJsonFile()
+        {
+            //calling of addressbooks using foreach loop
+            foreach (KeyValuePair<string, ContactPersonInformation> dictionaryPair in addressBookMapper)
+            {
+                ContactPersonInformation contactPersonInformation = dictionaryPair.Value;
+                contactPersonInformation.AddingContactDetailsInJsonFile(dictionaryPair.Key);
+            }
+            Console.WriteLine("Data Appended in json file successfully");
+        }
+
         /// <summary>
         /// reading the contact details from csv file
         /// </summary>
@@ -202,6 +218,29 @@ namespace AddressBook
                     }
                     //closing the csv reader for garbage collection
                     reader.Close();
+                }
+            }
+        }
+        public void ReadingContactDetailsFromJsonFile()
+        {
+            Console.WriteLine("**Reading data from json file**");
+            //iterating over each address book
+            foreach (KeyValuePair<string, ContactPersonInformation> addressBookName in addressBookMapper)
+            {
+                Console.WriteLine("The Name of the address book is:" + addressBookName.Key);
+                //defining path for each address book
+                string path = @"C:\Users\vishu\source\repos\Address Book FileIO Day 20\Address Book FileIO Day 20\ContactListJson\" + addressBookName.Key + ".json";
+                if (File.Exists(path))
+                {
+                    //deserializing object from json file, reading files and typecasting to list.
+                    List<ContactDetails> list = JsonConvert.DeserializeObject<List<ContactDetails>>(File.ReadAllText(path));
+                    Console.WriteLine("The Name of the address book is:" + addressBookName.Key);
+                    
+                    foreach (ContactDetails contactPerson in list)
+                    {
+                        Console.WriteLine($"First Name : {contactPerson.firstName} || Last Name: {contactPerson.lastName} || Address: {contactPerson.address} || City: {contactPerson.city} || State: {contactPerson.state}|| zip: {contactPerson.zip} || Phone No: {contactPerson.phoneNo} || eMail: {contactPerson.eMail}");
+                    }
+                    //closing the csv reader for garbage collection
                 }
             }
         }
